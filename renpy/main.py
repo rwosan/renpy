@@ -294,13 +294,15 @@ def main():
                 load_rpe(dir + "/" + fn)
 
     # The basename is the final component of the path to the gamedir.
-    for i in sorted(os.listdir(renpy.config.gamedir)):
-
-        if not i.endswith(".rpa"):
-            continue
-
-        i = i[:-4]
-        renpy.config.archives.append(i)
+    
+    if renpy.android:
+        game_dir = os.path.join(os.environ["ANDROID_PUBLIC"], "game")
+    else:
+        game_dir = renpy.config.gamedir
+    for i in sorted(os.listdir(os.path.join(game_dir))):
+        if i.endswith(".rpa"):
+            i = i[:-4]
+            renpy.config.archives.append(i)
 
     renpy.config.archives.reverse()
 
